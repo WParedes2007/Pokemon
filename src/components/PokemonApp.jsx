@@ -1,5 +1,3 @@
-//import { usePokemon } from "../hooks/usePokemon"
-//import { BuscarPokemon } from "./BuscarPokemon"
 
 import { useState } from "react"
 
@@ -9,6 +7,8 @@ export const PokemonApp = () => {
     const [url, setUrl] = useState("")
     const [name, setName] = useState("")
     const [id, setId] = useState("")
+    const [tipo,setTipo] = useState('')
+    const [ability,setAbility] = useState('')
 
     /*const handleAgregarPokemon = () =>{
         setName("Gengar")
@@ -19,9 +19,11 @@ export const PokemonApp = () => {
              fetch(`https://pokeapi.co/api/v2/pokemon/${name}`).then((resp)=>{
                  resp.json().then((data)=>{
                     const {id, name, sprites, types} = data
-                    console.log(id,name, sprites.other['official-artwork'].front_default,["types"])
+                    console.log(id,name, sprites.other['official-artwork'].front_default,data.types[0].type.name,data.abilities[0].ability.name)
                     setUrl(sprites.other['official-artwork'].front_default)
                     setId(id)
+                    setTipo(data.types[0].type.name)
+                    setAbility(data.abilities[0].ability.name)
                     //console.log({data})
                 })
             })
@@ -32,22 +34,25 @@ export const PokemonApp = () => {
     
     return (
     <>
-    <h1>Id: {id}</h1>
-    <h1>Nombre: {name}</h1>
-    <img src={url}></img>
+    <div className="card" data-bs-theme="dark">
+    <div className="container d-fex flex-row justify-content-center alig-items-center mt-3 w-50" data-bs-theme="dark">
     <input className="form-control me-2" type="text" onChange={(e)=>{setName(e.target.value)}}></input>
-    <button onClick={reqPokemon}>PokemonApp</button>
+    <br></br>
+    <button className="btn btn-success" type="submit" onClick={reqPokemon}>Buscar Pokemon</button>
+    </div>
+    <br></br>
+    <div className="card" data-bs-theme="dark">
+        <img src={url} className="card-img-top w-25" alt="..."/>
+        <div className="card-body">
+        <h4>No.Pokedex: {id}</h4>
+        <h5>Nombre: {name}</h5>
+        <h6>Tipo: {tipo}</h6>
+        <h6>Habilidad: {ability}</h6>
+        </div>
+    </div>
+    </div>
     </>
   )
 }
 
-/*export const PokemonApp = () => {
-    const{handleGetPokemon, arregloPokemon} = usePokemon()
-    
-    
-    return (
-        <>
-              <BuscarPokemon handleGetPokemon = {handleGetPokemon}/>
-        </>
-    )
-}*/
+
